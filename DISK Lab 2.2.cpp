@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <string>
 using namespace std;
+
+void _xor(float a[], int power_a, float b[], int power_b, float c[], int* T);
 bool is_numeric_f(string);
 bool is_numeric_i(string);
 void SortArr(float a[], int SIZE);
@@ -78,42 +80,28 @@ void Povt(float a[], int* T)
 
 }
 
-void _peretun(float a[] , int power_a, float b[], int power_b, float c[] , int *T )
+void _xor(float a[] , int power_a, float b[], int power_b, float c[] , int *T )
 {
-	int k = 0;
+	int k = *T, temp = 0;
 	for (int i = 0; i <= power_a ; i++)
 	{
+		temp = 0;
 		for (int j = 0; j <= power_b; j++)
 		{
 			if (a[i] == b[j])
 			{
-				c[k] = a[i];
-				k++;
-				//cout << "++" << endl;
+				temp = 1;
 			}
 		}
+		if (temp != 1)
+		{
+			c[k] = a[i]; 
+			k++;
+		}
 	}
-	--k;
-	//cout << "K = "<< k << endl;
 	*T = k;
 }
 
-void _objedn(float a[], int power_a, float b[], int power_b, float c[], int* T)
-{
-	int k = 0;
-	*T = 0;
-	for (int ai = 0; ai < power_a; ai++)
-	{
-		c[k] = a[ai];
-		k++;
-	}
-	for (int bi = 0; bi < power_b; bi++)
-	{
-		c[k] = b[bi];
-		k++;
-	}
-	*T = k;
-}
 
 bool is_numeric_f(string x)
 {
@@ -177,15 +165,13 @@ int main()
 	if (is_numeric_i(s_p2) == 0) cout << "You entered an incorect data.", ::k = 0;
 	if (::k != 0)
 	{
-		_objedn(A, power1, B, power2, C, &T);
+		_xor(A, power1, B, power2, C, &T);
+		_xor(B, power2, A, power1, C, &T);
 		SortArr(C, T);
 		Povt(C, &T);
-		cout << "Association: "; 
+		cout <<"Array C: ";
 		PrintArr(C, T);
-		_peretun(A, power1, B, power2, C, &T);
-		Povt(C, &T);
-		cout << "\nCrossing: ";
-		PrintArr(C, T);
+		cout << "\nPower of array : " << T << '.';
 	}
 	else if (::k == 0)
 	{
